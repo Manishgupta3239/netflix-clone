@@ -1,0 +1,10 @@
+{
+  "watch": ["server.js"],
+  "ignore": ["node_modules", ".git", "*.log", "temp", "logs"],
+  "ext": "js,json",
+  "watch_options": {
+      "usePolling": true,
+      "interval": 2000
+  },
+  "verbose": true
+}
