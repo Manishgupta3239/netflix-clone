@@ -6,9 +6,12 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 dotenv.config();
 const app =express();
-cors();
-const PORT = process.env .port || 3000;
 
+const PORT = process.env .port || 3000;
+app.use(cors({
+    origin: "https://netlix-clone-17d8d.web.app", // or your frontend URL
+    credentials: true
+  }));  
 app.use(cookieParser());
 app.use(express.json());
 app.use('/netflix', router)

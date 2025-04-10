@@ -7,7 +7,7 @@ export default defineConfig({
     proxy: {
       // Proxy all requests starting with '/api' to the target backend server
       '/netflix': {
-        target: 'http://localhost:3000/',
+        target: 'https://netflix-clone-6lp0.onrender.com',
         changeOrigin: true,  // Changes the origin of the host header to the target URL
       },
     },
