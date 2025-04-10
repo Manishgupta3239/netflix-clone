@@ -14,33 +14,36 @@ router.get("/authenticate", isAuthenticated, (req, res) => {
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email: email });
-  if (user) {
-    try {
-      bcrypt.compare(password, user.password, (err, result) => {
-        if (result) {
-          const token = jwt.sign({ email: email }, KEY, { expiresIn: "1h" });
-          res.cookie("token", token,{
-            secure:true,
-            httpOnly:true
-          });
-          console.log("Logged In");
-         return res.status(200).json({ message: "Logged In" });
-        } else {
-          console.log("incorrect password or username");
-          return res.status(401).json({ message: "incorrect password or username" });
-        }
-      });
-    } catch (error) {
-      console.log("Error in Login path", error.message);
-      return res.status(500).json({ message: "incorrect password or username" });
-    }
-  } else {
-    console.log("Username or password Incorrect");
-    return res.status(401).json({ message: "Username or password Incorrect" });
-  }
-});
 
+  try {
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      console.log("User not found");
+      return res.status(401).json({ message: "Username or password Incorrect" });
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      console.log("Password mismatch");
+      return res.status(401).json({ message: "Incorrect password or username" });
+    }
+
+    const token = jwt.sign({ email: email }, KEY, { expiresIn: "1h" });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
+
+    console.log("Logged In");
+    return res.status(200).json({ message: "Logged In" });
+
+  } catch (error) {
+    console.error("Error in Login path", error.message);
+    return res.status(500).json({ message: "Server Error" });
+  }
+})
 router.post("/signup", async (req, res) => {
   const { email, password } = req.body;
   const salt = await bcrypt.genSalt(10);
