@@ -9,7 +9,7 @@ const app =express();
 
 const PORT = process.env .port || 3000;
 app.use(cors({
-    origin: "https://netlix-clone-17d8d.web.app", 
+    origin: "*", 
     credentials: true
   }));  
 app.use(cookieParser());
