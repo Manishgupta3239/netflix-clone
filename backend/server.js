@@ -9,9 +9,13 @@ const app =express();
 
 const PORT = process.env .port || 3000;
 app.use(cors({
-    origin: "*", 
-    credentials: true
-  }));  
+    origin: "https://netlix-clone-17d8d.web.app",  // Use the specific frontend URL
+    credentials: true,  // Allow credentials like cookies or authorization headers
+  }));
+  
+  // Handle preflight requests (OPTIONS)
+  app.options('*', cors());  // Allow preflight requests
+  
 app.use(cookieParser());
 app.use(express.json());
 app.use('/netflix', router)
