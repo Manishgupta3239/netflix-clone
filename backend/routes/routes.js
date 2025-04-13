@@ -44,6 +44,7 @@ router.post("/login", async (req, res) => {
     return res.status(500).json({ message: "Server Error" });
   }
 })
+
 router.post("/signup", async (req, res) => {
   const { email, password } = req.body;
   const salt = await bcrypt.genSalt(10);
@@ -59,7 +60,8 @@ router.post("/signup", async (req, res) => {
         const token = jwt.sign({ email: email }, KEY, { expiresIn: "1h" });
         res.cookie("token", token,{
           secure:true,
-          httpOnly:true
+          httpOnly:true,
+          sameSite: "None",
         });
         console.log(user);
         res.status(200).json({ success : true , message: "userCreated" });
