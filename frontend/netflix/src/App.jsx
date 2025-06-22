@@ -1,97 +1,42 @@
-import { RouterProvider, createBrowserRouter} from "react-router-dom";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
-import Verify from "./components/Verify";
-import Index from "./components/Index";
-import Logout from "./components/Logout";
-import Home from "./components/Home";
-import Tvshows from "./components/Tvshows";
-import Pagenotfound from "./components/Pagenotfound";
-import Search from "./components/Search";
-import History from "./Context/History";
-import Watch from "./components/Watch";
-
-const router = createBrowserRouter(
-  [
-    {
-      path : "/",
-      element :<Index/>,
-      
-    },
-    {
-      path : "/login",
-      element :<div>
-        <Login/>
-      </div>
-    },
-    {
-      path : "/signup/reform/:email",
-      element :<div>
-        <SignUp/>
-      </div>
-    },
-    {
-      path : "/signup/verifyemail/:email/",
-      element :<div>
-        <Verify/>
-      </div>
-    },
-    {
-      path : "/logout",
-      element :<div>
-        <Logout/>
-      </div>
-    },
-    {
-      path : "/home",
-      element :<div>
-        <Home/>
-      </div>
-    },
-    {
-      path : "/home/:type",
-      element :<div>
-        <Home/>
-      </div>
-    },{
-      path : "/search",
-      element :<div>
-        <Search/>
-      </div>
-    },{
-      path : "/history",
-      element :<div>
-       <History/>
-      </div>
-    },
-
-    {
-      path : "/tvshow",
-      element :<div>
-        <Tvshows/>
-      </div>
-    },
-    {
-      path : "/watch/:id",
-      element :<div>
-        <Watch/>
-      </div>
-    },
-    {
-      path : "/*",
-      element :<div>
-        <Pagenotfound/>
-      </div>
-    },
-  ]
-)
+import {BrowserRouter,Route,Routes,} from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import Index from "./pages/Index";
+import Logout from "./pages/Logout";
+import Home from "./pages/Home";
+import Tvshows from "./pages/Tvshows";
+import Pagenotfound from "./pages/Pagenotfound";``
+import Search from "./pages/Search";
+import Watch from "./pages/Watch";
+import { useContext } from "react";
+import { IsAuthenticate } from "./Context/isAuthenticate";
+import Loading from "./components/Loading";
 
 function App() {
-
-  return (
+  const {authenticate , loading } = useContext(IsAuthenticate)
+  console.log(authenticate)
+  return loading ? (<Loading/>) : (
     <>
-    {/* <Index/> */}
-    <RouterProvider router={router}/>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={authenticate ? (<Home />):(<Index/>) } />
+
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup/reform/:email" element={<SignUp />} />
+          <Route path="/logout" element={<Logout/>} />
+
+          <Route path="/home" element={authenticate ? (<Home />) :(<Index/>) } />
+          <Route path="/home/:type" element={authenticate ? (<Home />) :(<Index/>) }/>
+
+          <Route path="/search" element={authenticate ? (<Search />) :(<Index/>) } />
+          <Route path="/tvshow" element={authenticate ? (<Tvshows />) :(<Index/>) } />
+          <Route path="/watch/:id" element={authenticate ? (<Watch />) :(<Index/>) } />
+          <Route path="*" element={<Pagenotfound />} />
+        </Routes>
+      </BrowserRouter>
+      <ToastContainer position="top-center" autoClose={500} />
     </>
   );
 }

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MoviesContext } from "../Context/MoviesContext";
-import Homenav from './Homenav'
+import Homenav from '../components/Homenav'
 import { ShowsContext } from "../Context/TVshowsContext";
-import SearchContent from "./SearchContent";
+import SearchContent from "../components/SearchContent";
 
 const Search = () => {
   const movies = useContext(MoviesContext);

@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const HeroContent = () => {
   const [isFocused, setFocused] = useState(false);
   const [email, setEmail] = useState("");
   const [err, setErr] = useState(false);
+  const navigate = useNavigate();
 
   function handleEmail(e) {
-    if (e.target.value == "") {
+    if (e.target.value === "") {
       e.target.style.border = "3px solid red";
       setErr(true);
     } else {
@@ -18,60 +19,55 @@ const HeroContent = () => {
     setEmail(e.target.value);
   }
 
-  function handleBlur(e) {
-    setFocused(false);
-  }
-  function handleFocus(e) {
-    setFocused(false);
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/signup/reform/${email}`);
+  };
 
   return (
     <div>
-      <div>
-        <Navbar />
-        <div className="font-sans mt-16">
-          <div className=" text-white font-extrabold text-center">
-            <p className="text-[65px]">
-              Unlimited movies,TV <br />
-              shows and more
-            </p>
-            <br />
-            <p className="text-[23px]">Starts at ₹149. Cancel at any time.</p>
-          </div>
+      <Navbar />
+      <div className="font-sans mt-16 px-4">
+        <div className="text-white font-extrabold text-center">
+          <p className="text-[40px] sm:text-[50px] md:text-[60px] lg:text-[65px] leading-tight">
+            Unlimited movies, TV <br className="hidden sm:block" />
+            shows and more
+          </p>
+          <p className="text-[18px] sm:text-[20px] md:text-[23px] mt-4">
+            Starts at ₹149. Cancel at any time.
+          </p>
+        </div>
 
-          <div className="text-white text-center space-x-3 mt-6">
-            <p className="text-[20px] mb-4">
-              Ready to watch? Enter your email to create or restart your
-              membership.
-            </p>
-            <form
-              action={`/signup/reform/${email}`}
-              className="space-x-3 w-[50%] translate-x-[50%] "
+        <div className="text-white text-center mt-8">
+          <p className="text-[16px] sm:text-[18px] md:text-[20px] mb-4 px-2">
+            Ready to watch? Enter your email to create or restart your
+            membership.
+          </p>
+
+          <form onSubmit={handleSubmit}
+            className="flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-3 w-full max-w-[700px] mx-auto"
+          >
+            <input
+              className="bg-slate-950 border-2 h-[50px] w-full sm:w-[400px] rounded-lg px-4"
+              placeholder="Email address"
+              onChange={handleEmail}
+              onBlur={(e) => (e.target.style.border = "2px solid black")}
+              type="email"
+              required
+            />
+            <button
+              className="bg-red-700 text-white h-[50px] w-full sm:w-[180px] rounded-lg text-[20px] font-medium hover:bg-red-600"
+              type="submit"
             >
-              <input
-                className=" mx-auto mt-2 bg-slate-950 border-2 h-[57px] w-[450px] rounded-lg px-4 inline-block"
-                placeholder="Email address"
-                onChange={handleEmail}
-                onBlur={(e) => (e.target.style.border = "2px solid black")}
-                type="email"
-                required
-              />
+              Get Started
+            </button>
+          </form>
 
-              <button
-                className="border-1 focus:outline-none boder-red bg-red-700 text-slate-100 h-[57px] w-[180px] rounded-lg text-[25px] px-2 text-center font-medium hover:bg-red-600 "
-                type="submit"
-              >
-                Get Started
-              </button>
-              {err ? (
-                <p className="text-[15px] text-red-600 font-bold text-left">
-                  Invalid email id
-                </p>
-              ) : (
-                ""
-              )}
-            </form>
-          </div>
+          {err && (
+            <p className="text-[14px] text-red-500 font-bold mt-2">
+              Invalid email id
+            </p>
+          )}
         </div>
       </div>
     </div>
