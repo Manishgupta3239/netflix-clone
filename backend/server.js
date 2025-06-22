@@ -9,7 +9,7 @@ const app =express();
 
 const PORT = process.env .port || 3000;
 app.use(cors({
-    origin: "https://netlix-clone-17d8d.web.app",  // Use the specific frontend URL
+    origin:[ "http://localhost:5173/" , "https://netlix-clone-17d8d.web.app"],  // Use the specific frontend URL
     credentials: true,  // Allow credentials like cookies or authorization headers
   }));
   
