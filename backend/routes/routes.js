@@ -75,12 +75,15 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.get("/logout", (req, res,next) => {
-  console.log("logged out");
-  res.cookie("token", "");
+router.get("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None"
+  });
   res.status(200).json({ message: "Logged Out" });
-  next();
 });
+
 
 async function isAuthenticated(req, res, next) {
   const token = req.cookies.token;
