@@ -37,7 +37,7 @@ const SignUp = () => {
     setLoading(true);
     const data = { email: mail, password: password };
     try {
-      const response = await axios.post("http://localhost:3000/netflix/signup", data,{
+      const response = await axios.post("https://netflix-clone-6lp0.onrender.com/netflix/signup", data,{
         headers: {
           "Content-Type": "application/json"
         },

@@ -13,7 +13,7 @@ const AuthProviderNew = ({ children }) => {
     try {
       setLoading(true);
       const res = await axios.get(
-        "http://localhost:3000/netflix/authenticate",
+        "https://netflix-clone-6lp0.onrender.com/netflix/authenticate",
         {
           withCredentials: true,
         }
