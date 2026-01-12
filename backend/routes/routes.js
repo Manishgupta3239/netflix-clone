@@ -8,7 +8,7 @@ dotenv.config();
 const KEY = process.env.SECRET_KEY;
 
 router.get("/authenticate", isAuthenticated, (req, res) => {
-  const {token , user} = req.body;
+  const {token } = req.token;
   return res.status(200).json({success : true , message : "Authenticated" , token});
 });
 
@@ -58,6 +58,7 @@ router.post("/signup", async (req, res) => {
       const user = await User.create({ email, password: hash });
       if (user) {
         const token = jwt.sign({ email: email }, KEY, { expiresIn: "1h" });
+        console.log("token",token);
         res.cookie("token", token,{
           secure:true,
           httpOnly:true,
@@ -86,27 +87,41 @@ router.get("/logout", (req, res) => {
 
 
 async function isAuthenticated(req, res, next) {
-  const token = req.cookies.token;
-  if (token) {
-    try {
-      const data = jwt.verify(token, KEY);
-      const email = data.email;
-      const user = await User.findOne({ email });
-      if (user) {
-        req.body = {user, token};
-        console.log("api hit hau")
-        next();
-      } else {
-        res.status(500).json({ message: "User Not Found" });
-      }
-    } catch (error) {
-      console.log(error.message);
-      res.status(500).json({ message: "Invalid Token" });
+  try {
+    const token = req.cookies?.token;
+    console.log(token);
+    if (!token) {
+      return res.status(401).json({
+        message: "Authentication required"
+      });
     }
-  } else {
-    console.log("Kindly Login or Register");
-    res.status(500).json({ message: "Kindly Login" });
+
+    const data = jwt.verify(token, KEY);
+    const email = data.email;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found"
+      });
+    }
+
+    // attach data safely
+    req.user = user;
+    req.token = token;
+
+    console.log("Auth middleware hit");
+    return next();
+
+  } catch (error) {
+    console.error(error.message);
+
+    return res.status(401).json({
+      message: "Invalid or expired token"
+    });
   }
 }
+
 
 export default router;

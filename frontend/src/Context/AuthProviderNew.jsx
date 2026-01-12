@@ -7,13 +7,13 @@ const AuthProviderNew = ({ children }) => {
   //   () => JSON.parse(localStorage.getItem("authenticate")) || false
   // );  
   const [authenticate, setAuthenticate ] = useState(false);
-  const [loading, setLoading ] = useState(false);
+  const [loading, setLoading ] = useState(true);
 
   const Verify = async () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        "https://netflix-clone-6lp0.onrender.com/netflix/authenticate",
+        "http://localhost:3000/netflix/authenticate",
         {
           withCredentials: true,
         }

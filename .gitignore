@@ -6,8 +6,8 @@ frontend/netflix/node_modules/
 # Ignore Environment Variables
 .env
 backend/.env
-frontend/netflix/.env
+frontend/.env
 
 # Ignore Build Folders
-frontend/netflix/build/
+frontend/build/
 backend/dist/

@@ -1,5 +1,5 @@
 {
-  "watch": ["server.js"],
+  "watch": ["."],
   "ignore": ["node_modules", ".git", "*.log", "temp", "logs"],
   "ext": "js,json",
   "watch_options": {

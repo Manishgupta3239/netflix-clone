@@ -2,13 +2,23 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Card from "./Card";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const Trending = () => {
   const [data, setData] = useState([]);
   const [region, setRegion] = useState("India");
+  const [email , setEmail] = useState("")
   const [type, setType] = useState("Movies");
+  const navigate = useNavigate();
   const ref = useRef();
+
+    const handleSubmit = (e) => {
+    if(!email.trim()){
+      return
+    }
+    navigate(`/signup/reform/${email}`);
+  };
 
   const handleRight = () => {
     ref.current.scrollBy({ left: ref.current.offsetWidth, behavior: "smooth" });
@@ -42,6 +52,7 @@ const Trending = () => {
   useEffect(() => {
     getData();
   }, [region, type]);
+
 
   return (
     <div className="bg-black text-white flex justify-center px-4 md:px-10">
@@ -141,10 +152,13 @@ const Trending = () => {
               Ready to watch? Enter your email to create or restart your
               membership.
             </h1>
-            <form className="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <form className="flex flex-col sm:flex-row justify-center items-center gap-4" onSubmit={handleSubmit}>
               <input
                 className="bg-slate-950 border-2 h-[50px] w-full sm:w-[400px] rounded-lg px-4 text-white"
                 placeholder="Email address"
+                onChange={(e)=>setEmail(e.target.value)}
+                type="email"
+                required
               />
               <button
                 className="bg-red-700 hover:bg-red-600 text-white h-[50px] w-full sm:w-[200px] rounded-lg text-lg font-medium"

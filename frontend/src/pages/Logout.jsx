@@ -12,7 +12,7 @@ const Logout = () => {
   const {authenticate , setAuthenticate} = useContext(IsAuthenticate)
   async function logout() {
     try {
-      const response = await axios.get("https://netflix-clone-6lp0.onrender.com/netflix/logout",{
+      const response = await axios.get("http://localhost:3000/netflix/logout",{
         withCredentials:true
       });
       if (response.status === 200 || response.status === 204) {
