@@ -9,7 +9,7 @@ const app =express();
 
 const PORT = process.env .port || 3000;
 app.use(cors({
-    origin:[ "http://localhost:5173" , "https://netflix-clone-69bb.web.app"],  // Use the specific frontend URL
+    origin:[ "http://localhost:5173" , "https://netflix-clone-1-fgpf.onrender.com"],  // Use the specific frontend URL
     credentials: true,  // Allow credentials like cookies or authorization headers
   }));
   
