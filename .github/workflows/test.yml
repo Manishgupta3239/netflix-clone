@@ -24,6 +24,7 @@ jobs:
       - name: fetch the repo
         run: |
           ls -a
+          echo "repo downloaded"
       - name: fail if TODO exists
         run: |
           if grep -R "TODO" .; then
@@ -31,6 +32,7 @@ jobs:
             exit 1
           else
             echo "No TODOs found."
-          echo "repo downloaded"
+          fi
+
       - name: second step of second job
         run: echo "end"
