@@ -7,7 +7,7 @@ const router = express.Router();
 dotenv.config();
 const KEY = process.env.SECRET_KEY;
 
-router.get("/authenticate", isAuthenticated, (req, res) => {
+router.get("/authenticate", isAuthenticated, (req, res) => { 
   const {token } = req.token;
   return res.status(200).json({success : true , message : "Authenticated" , token});
 });
