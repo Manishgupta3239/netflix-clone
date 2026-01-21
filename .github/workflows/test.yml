@@ -14,3 +14,14 @@ jobs:
 
       - name: second step
         run: echo "second step executed"
+        
+  secondjob:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: fetch the repo
+        run: |
+          ls -a
+          echo "repo downloaded"
+      - name: second step of second job
+        run: echo "end"
