@@ -24,6 +24,33 @@ jobs:
       - name: fetch the repo
         run: |
           ls -a
+      name: test workflow
+
+on:
+  # push:
+  pull_request:
+  workflow_dispatch:
+
+# This is required to allow the action to push changes back to main
+jobs:
+  firstjob:
+    runs-on: ubuntu-latest
+    steps:
+      - name: first step
+        run: echo "first step executed"
+
+      - name: second step
+        run: echo "second step executed"
+        
+  secondjob:
+    runs-on: ubuntu-latest
+    needs: firstjob
+    steps:
+      - uses: actions/checkout@v4
+      - name: fetch the repo
+        run: |
+          ls -a
+          echo "repo downloaded"
       - name: fail if TODO exists
         run: |
           if grep -R "TODO" .; then
@@ -31,6 +58,9 @@ jobs:
             exit 1
           else
             echo "No TODOs found."
+          fi
+      - name: second step of second job
+        run: echo "end"
           echo "repo downloaded"
       - name: second step of second job
         run: echo "end"
