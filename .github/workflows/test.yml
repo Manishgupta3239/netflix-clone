@@ -1,6 +1,8 @@
 name: test workflow
 
-on: push
+on:
+  push:
+  workflow_dispatch:
 
 # This is required to allow the action to push changes back to main
 jobs:
