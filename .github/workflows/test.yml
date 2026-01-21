@@ -14,6 +14,13 @@ jobs:
 
       - name: second step
         run: echo "second step executed"
+      - name: fail if TODO exists
+        run: |
+          if grep -R "TODO" .; then
+            echo "Found TODO. Failing build."
+            exit 1
+          else
+            echo "No TODOs found."
         
   secondjob:
     runs-on: ubuntu-latest
