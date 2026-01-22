@@ -19,12 +19,15 @@ jobs:
     needs: firstjob
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
-      - name: install dependencies
+        with:
+          node-version: 20
+
+      - name: install dependencies (frontend)
+        working-directory: frontend
         run: npm install
 
-
-      - name: change dir
-        run: |
-          cd ./frontend
-          npm run dev
+      - name: run dev (frontend)
+        working-directory: frontend
+        run: npm run dev
