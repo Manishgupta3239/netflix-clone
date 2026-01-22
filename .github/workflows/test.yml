@@ -19,20 +19,12 @@ jobs:
     needs: firstjob
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - name: install dependencies
+        run: npm install
 
-      - name: fetch the repo
+
+      - name: change dir
         run: |
-          ls -a
-          echo "repo downloaded"
-
-      - name: fail if TODO exists
-        run: |
-          if grep -R "TODO" .; then
-            echo "Found TODO. Failing build."
-            
-          else
-            echo "No TODOs found."
-          fi
-
-      - name: end
-        run: echo "end"
+          cd ./frontend
+          npm run dev
